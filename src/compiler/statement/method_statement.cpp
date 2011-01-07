@@ -282,6 +282,10 @@ void MethodStatement::analyzeProgramImpl(AnalysisResultPtr ar) {
         }
       }
     }
+    if(!funcScope->isStatic() && getClassScope() && funcScope->getVariables()->getAttribute(VariableTable::ContainsDynamicVariable)) {
+        TypePtr tp(Type::Object);
+        funcScope->getVariables()->add("this", tp, true, ar, shared_from_this(),ModifierExpressionPtr());
+    }
     FunctionScope::RecordRefParamInfo(m_name, funcScope);
   }
 }
