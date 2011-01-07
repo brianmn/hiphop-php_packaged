@@ -26,6 +26,7 @@
 #include <util/process.h>
 #include <boost/algorithm/string/trim.hpp>
 #include <runtime/base/preg.h>
+#include <boost/filesystem.hpp>
 
 using namespace HPHP;
 using namespace std;
@@ -229,10 +230,16 @@ std::string Option::GetSystemRoot() {
   if (SystemRoot.empty()) {
     const char *home = getenv("HPHP_HOME");
     if (!home || !*home) {
-      throw Exception("Environment variable HPHP_HOME is not set.");
-    }
-    SystemRoot = home;
-    SystemRoot += "/src";
+      if(filesystem::exists("/usr/share/hphp/") && filesystem::exists("/usr/bin/hphp"))
+            SystemRoot = "/usr/share/hphp";
+        else if (filesystem::exists("/usr/local/share/hphp/") && filesystem::exists("/usr/local/bin/hphp"))
+            SystemRoot = "/usr/local/share/hphp";
+        else
+            throw Exception("Environment variable HPHP_HOME is not set.");
+     }
+     else
+        SystemRoot = home;
+     SystemRoot += "/src";
   }
   return SystemRoot;
 }
