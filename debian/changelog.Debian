@@ -1,0 +1,5 @@
+hphp (0.1.0-1) jaunty; urgency=low
+
+    * Use Hui Chen's changes
+
+  -- Brian Nordland <brian@localhost> 2011-01-07
